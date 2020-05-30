@@ -9,8 +9,8 @@ function createRouter(db) {
     //agrega un nuevo usuario
     router.post('/usuario', (req, res, next) => {
       db.query(
-        'INSERT INTO usuarios (nombre, apellido, email, password, fechaNacimiento, telefono) VALUES (?,?,?,?,?,?)',
-        [req.body.nombre, req.body.apellido, req.body.email, req.body.password, req.body.fechaNacimiento, req.body.telefono],
+        'INSERT INTO usuarios (nombre, email, password, telefono, imagenUsuario, domicilio, codigoPostal, tipo, rol) VALUES (?,?,?,?,?,?,?,?,?)',
+        [req.body.nombre, req.body.email, req.body.password, req.body.telefono, req.body.imagenUsuario, req.body.domicilio, req.body.codigoPostal, req.body.tipo, req.body.rol],
         (error) => {
           if (error) {
             console.error(error);
@@ -40,7 +40,7 @@ function createRouter(db) {
     //obtiene un usuario
     router.get('/usuario/:id', function (req, res, next) {
       db.query(
-        'SELECT idUsuario, nombre, apellido, email, password, fechaNacimiento, telefono FROM usuarios WHERE idUsuario=?',
+        'SELECT * FROM usuarios WHERE idUsuario=?',
         [req.params.id],
         (error, results) => {
           if (error) {
@@ -56,8 +56,8 @@ function createRouter(db) {
     //edita un usuario por id
     router.put('/usuario/:id', function (req, res, next) {
       db.query(
-        'UPDATE usuarios SET nombre=?, apellido=?, email=?, password=?, fechaNacimiento=?, telefono=? WHERE idUsuario=?',
-        [req.body.nombre, req.body.apellido, req.body.email, req.body.password, req.body.fechaNacimiento, req.body.telefono, req.params.id],
+        'UPDATE usuarios SET nombre=?, email=?, password=?, telefono=?, imagenUsuario=?, domicilio=?, codigoPostal=?, tipo=?, rol=? WHERE idUsuario=?',
+        [req.body.nombre, req.body.email, req.body.password, req.body.telefono, req.body.imagenUsuario, req.body.domicilio, req.body.codigoPostal, req.body.tipo, req.body.rol, req.params.id],
         (error) => {
           if (error) {
             res.status(500).json({status: 'error'});
@@ -83,7 +83,7 @@ function createRouter(db) {
       );
     });
   
-    //---------------------------------------------------------------------------//
+    //-----------------------------------------------------------------------------------------------//
     return router;
 }
 export default createRouter;
